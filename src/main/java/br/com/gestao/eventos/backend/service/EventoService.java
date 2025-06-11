@@ -23,7 +23,6 @@ public class EventoService {
 
         Evento eventoSalvo = eventoRepository.save(evento);
 
-
         return new EventoSaidaDto(eventoSalvo);
     }
 }
