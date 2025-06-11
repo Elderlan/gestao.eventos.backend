@@ -4,6 +4,7 @@ import br.com.gestao.eventos.backend.dto.EventoEntradaDto;
 import br.com.gestao.eventos.backend.dto.EventoSaidaDto;
 import br.com.gestao.eventos.backend.model.Evento;
 import br.com.gestao.eventos.backend.repository.EventoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class EventoService {
     }
 
     public EventoSaidaDto atualizarEvento(Long id, EventoEntradaDto dto) {
-        Evento evento = eventoRepository.findById(id)
+        Evento evento = eventoRepository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
 
         evento.setTitulo(dto.getTitulo());
@@ -46,13 +47,13 @@ public class EventoService {
     }
 
     public EventoSaidaDto obterEventoPorId(Long id) {
-        Evento evento = eventoRepository.findById(id)
+        Evento evento = eventoRepository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
         return new EventoSaidaDto(evento);
     }
 
     public Page<EventoSaidaDto> listarEventos(Pageable pageable) {
-        return eventoRepository.findAll(pageable)
+        return eventoRepository.findByAtivoTrue(pageable)
                 .map(this::converterParaDto);
     }
 
@@ -64,6 +65,14 @@ public class EventoService {
                 evento.getDataHoraEvento(),
                 evento.getLocal()
         );
+    }
+
+    public void deletarEvento(Long id) {
+        Evento evento = eventoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado"));
+
+        evento.setAtivo(false);
+        eventoRepository.save(evento);
     }
 
 

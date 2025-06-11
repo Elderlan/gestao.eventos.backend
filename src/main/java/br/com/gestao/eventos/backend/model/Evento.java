@@ -30,4 +30,7 @@ public class Evento {
 
     @Column(name = "local", length = 200)
     private String local;
+
+    @Column(name = "ativo")
+    private boolean ativo;
 }

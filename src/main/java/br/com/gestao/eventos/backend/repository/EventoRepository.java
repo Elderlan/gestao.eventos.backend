@@ -5,8 +5,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 
 public interface EventoRepository extends CrudRepository<Evento, Long> {
 
-    Page<Evento> findAll(Pageable pageable);
+    Optional<Evento> findByIdAndAtivoTrue(Long id);
+
+    Page<Evento> findByAtivoTrue(Pageable pageable);
 }
