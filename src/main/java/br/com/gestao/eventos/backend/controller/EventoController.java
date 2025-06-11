@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/evento")
@@ -35,6 +37,12 @@ public class EventoController {
     public ResponseEntity<EventoSaidaDto> obterEventoPorId(@PathVariable Long id) {
         EventoSaidaDto evento = eventoService.obterEventoPorId(id);
         return ResponseEntity.ok(evento);
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<Page<EventoSaidaDto>> listarEventos(Pageable pageable) {
+        Page<EventoSaidaDto> eventos = eventoService.listarEventos(pageable);
+        return ResponseEntity.ok(eventos);
     }
 
 
