@@ -43,4 +43,11 @@ public class EventoService {
         return new EventoSaidaDto(atualizado);
     }
 
+    public EventoSaidaDto obterEventoPorId(Long id) {
+        Evento evento = eventoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Evento não encontrado"));
+        return new EventoSaidaDto(evento);
+    }
+
+
 }

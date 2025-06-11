@@ -31,4 +31,11 @@ public class EventoController {
         return ResponseEntity.ok(eventoAtualizado);
     }
 
+    @GetMapping("/detalhar/{id}")
+    public ResponseEntity<EventoSaidaDto> obterEventoPorId(@PathVariable Long id) {
+        EventoSaidaDto evento = eventoService.obterEventoPorId(id);
+        return ResponseEntity.ok(evento);
+    }
+
+
 }
