@@ -32,5 +32,5 @@ public class Evento {
     private String local;
 
     @Column(name = "ativo")
-    private boolean ativo;
+    private boolean ativo = true;
 }
